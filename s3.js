@@ -4,6 +4,7 @@ const app = express();
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
+const cog = require("./cog");
 
 const s3 = new aws.S3({});
 
@@ -11,6 +12,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: "images-777",
+
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       cb(null, Date.now().toString());
@@ -20,6 +22,7 @@ const upload = multer({
 });
 
 var mysql = require("mysql");
+const { response } = require("express");
 
 var con = mysql.createConnection({
   host: "database-1.conue5zevsxg.us-east-1.rds.amazonaws.com",
@@ -34,7 +37,6 @@ con.connect(function (err) {
   con.query(
     "CREATE TABLE IF NOT EXISTS Uid(ID int NOT NULL AUTO_INCREMENT, Url VARCHAR(50), PRIMARY KEY(ID) )"
   );
-  //con.query("INSERT IGNORE INTO Uid(ID) VALUES('004654613346')");
   console.log("Connected!");
 });
 
@@ -51,13 +53,18 @@ app.get("/", function (req, res) {
 
 app.post("/save-image", upload.single("image"), (req, res) => {
   res.redirect(req.file.location);
-  var f = req.file.location;
+  //var f = req.file.location;
   con.query("INSERT INTO Uid(Url) VALUES('" + req.file.location + "')");
 });
 app.get("/ali", function (req, res) {
-  var foto = con.query("SELECT Url FROM Uid WHERE ID=(5)");
-  console.log(foto);
-  //res.redirect(foto);
+  con.query("SELECT Url FROM Uid WHERE ID=10", function (err, ress, fields) {
+    if (err) throw err;
+    image = ress[0].Url;
+
+    res.redirect(image);
+  });
+
+  //res.sendFile(__dirname + "/public/link.html");
 });
 
 app.use(express.static(__dirname + "/public"));
