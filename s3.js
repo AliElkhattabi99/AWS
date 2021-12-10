@@ -61,60 +61,40 @@ app.post("/reg", function (req, res, next) {
   registerUser(email, password);
   res.sendFile(__dirname + "/public/home.html");
 });
-
+/*checkIfUserDoesntExist(email) {
+  return new Promise(async (resolve, reject) => {
+      const payload = {
+          ClientId: configCognito.APP_CLIENT_ID,
+          AuthFlow: "ADMIN_NO_SRP_AUTH",
+          UserPoolId: configCognito.USER_POOL_ID,
+          AuthParameters: {
+              USERNAME: email,
+              PASSWORD: "123",
+          }
+      }
+      try {
+          await (new AWS.CognitoIdentityServiceProvider()).adminInitiateAuth(payload).promise();
+          reject(); // very unlikely 
+      } catch (e) {
+          console.log("checkIfUserDoesntExist error", e);
+          switch (e.code) {
+              case 'UserNotFoundException':
+                  resolve();
+              case 'NotAuthorizedException':
+              case 'PasswordResetRequiredException':
+              case 'UserNotConfirmedException':
+              default:
+                  reject();
+          }
+      }
+    });
+  }*/
 app.post("/auth", function (request, response) {
   var email = request.body.email;
   var password = request.body.password;
   login(email, password);
   response.sendFile(__dirname + "/public/home.html");
 });
-
-/*app.post("/reg", function (req, res, next) {
-  inputData = {
-    email: req.body.email,
-    password: req.body.password,
-  };
-
-  var sql = "SELECT * FROM accounts WHERE email =?";
-  con.query(sql, [inputData.email], function (err, data, fields) {
-    if (err) throw err;
-    if (data.length > 1) {
-      var msg = inputData.email + "was already exist";
-    } else {
-      // save users data into database
-      var sql = "INSERT INTO accounts SET ?";
-      con.query(sql, inputData, function (err, data) {
-        if (err) throw err;
-      });
-      var msg = "Your are successfully registered";
-    }
-    res.sendFile(__dirname + "/public/home.html");
-  });
-});
-
-app.post("/auth", function (request, response) {
-  var username = request.body.email;
-  var password = request.body.password;
-  if (username && password) {
-    con.query(
-      "SELECT * FROM accounts WHERE email = ? AND password = ?",
-      [username, password],
-      function (error, results, fields) {
-        if (results.length > 0) {
-          request.session.loggedin = true;
-          request.session.username = username;
-          response.redirect("/home");
-        } else {
-          response.send("Incorrect Username and/or Password!");
-        }
-        response.sendFile(__dirname + "/public/home.html");
-      }
-    );
-  } else {
-    response.send("Please enter Username and Password!");
-    response.end();
-  }
-});*/
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/link.html"));

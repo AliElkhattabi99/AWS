@@ -1,5 +1,12 @@
 body {
-  background: thistle;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Jost", sans-serif;
+  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 form {
   position: absolute;
@@ -31,20 +38,19 @@ form input {
 form button {
   margin: 0;
   color: #fff;
-  background: #16a085;
+  background: #573b8a;
   border: none;
   width: 508px;
   height: 35px;
   margin-top: -20px;
   margin-left: -4px;
   border-radius: 4px;
-  border-bottom: 4px solid #117a60;
+  border-bottom: 4px solid #573b8a;
   transition: all 0.2s ease;
   outline: none;
 }
 form button:hover {
-  background: #149174;
-  color: #0c5645;
+  background: #6d44b8;
 }
 form button:active {
   border: 0;
