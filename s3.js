@@ -62,6 +62,13 @@ app.post("/reg", function (req, res, next) {
   res.sendFile(__dirname + "/public/home.html");
 });
 
+app.post("/auth", function (request, response) {
+  var email = request.body.email;
+  var password = request.body.password;
+  login(email, password);
+  response.sendFile(__dirname + "/public/home.html");
+});
+
 /*app.post("/reg", function (req, res, next) {
   inputData = {
     email: req.body.email,
