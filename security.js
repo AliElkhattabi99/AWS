@@ -2,6 +2,7 @@ const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 const request = require("request");
 const jwkToPem = require("jwk-to-pem");
 const jwt = require("jsonwebtoken");
+const res = require("express/lib/response");
 global.fetch = require("node-fetch");
 
 const poolData = {
